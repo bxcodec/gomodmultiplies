@@ -1,17 +1,25 @@
 package gomodmultiplies
 
-func Multiply(items ...int64) int64 {
+import "reflect"
+
+func Multiply(items ...interface{}) int64 {
 	res := int64(1)
 	for _, item := range items {
-		res *= item
+		res *= convertToInt64(item)
 	}
 	return res
 }
 
-func MultiplyInt(items ...int) int64 {
-	res := 1
-	for _, item := range items {
-		res *= item
+func convertToInt64(data interface{}) int64 {
+	if data == nil {
+		return 0
 	}
-	return int64(res)
+	int64Type := reflect.TypeOf(int64(0))
+	v := reflect.ValueOf(data)
+	v = reflect.Indirect(v)
+	if !v.Type().ConvertibleTo(int64Type) {
+		return 0
+	}
+	res := v.Convert(int64Type)
+	return res.Int()
 }

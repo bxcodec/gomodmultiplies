@@ -1,1 +1,1 @@
-module github.com/bxcodec/gomodmultiplies
+module github.com/bxcodec/gomodmultiplies/v2
